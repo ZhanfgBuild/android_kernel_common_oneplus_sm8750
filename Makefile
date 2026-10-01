@@ -855,7 +855,10 @@ KBUILD_RUSTFLAGS += -Cdebug-assertions=$(if $(CONFIG_RUST_DEBUG_ASSERTIONS),y,n)
 KBUILD_RUSTFLAGS += -Coverflow-checks=$(if $(CONFIG_RUST_OVERFLOW_CHECKS),y,n)
 
 ifdef CONFIG_ARCH_ORYON
-KBUILD_CFLAGS += -mcpu=oryon-1
+# Qualcomm/OnePlus toolchains understand oryon-1, while generic upstream
+# Clang releases may not. Keep the device-specific tuning when supported,
+# but do not make the source tree unbuildable with standards-compliant LLVM.
+KBUILD_CFLAGS += $(call cc-option,-mcpu=oryon-1)
 endif
 
 ifdef CONFIG_LLVM_POLLY
