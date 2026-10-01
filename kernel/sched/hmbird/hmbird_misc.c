@@ -19,6 +19,18 @@ noinline int tracing_mark_write(const char *buf)
 	return 0;
 }
 
+noinline_for_stack int hmbird_systrace_emit(const char *fmt, ...)
+{
+	va_list args;
+	char buf[256];
+
+	va_start(args, fmt);
+	vscnprintf(buf, sizeof(buf), fmt, args);
+	va_end(args);
+
+	return tracing_mark_write(buf);
+}
+
 struct yield_opt_params yield_opt_params = {
 	.enable = 0,
 	.frame_per_sec = 120,
