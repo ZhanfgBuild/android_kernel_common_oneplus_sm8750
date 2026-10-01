@@ -448,7 +448,7 @@ void slim_walt_window_rollover_run_once(u64 old_window_start, struct rq *rq)
  * point to before the update of rq_clock, we wrap the judgment of the rq_clock
  * update here.
  */
-void hmbird_update_task_ravg_rqclock_wrapper(struct task_struct *p,
+noinline_for_stack void hmbird_update_task_ravg_rqclock_wrapper(struct task_struct *p,
 				struct rq *rq, int event)
 {
 	if (!(rq->clock_update_flags & RQCF_UPDATED))
