@@ -1816,7 +1816,7 @@ static void wait_ops_state(struct task_struct *p, u64 opss)
 }
 
 
-static void update_curr_hmbird(struct rq *rq)
+static noinline_for_stack void update_curr_hmbird(struct rq *rq)
 {
 	struct task_struct *curr = rq->curr;
 	u64 now = rq_clock_task(rq);
