@@ -76,20 +76,17 @@ do {						\
 #define hmbird_info_trace(fmt, ...)
 #endif
 
+int hmbird_systrace_emit(const char *fmt, ...) __printf(1, 2);
+
 #define hmbird_info_systrace(fmt, ...)	\
 do {					\
-	if (unlikely(hmbirdcore_debug & DEBUG_INFO_SYSTRACE)) {	\
-		char buf[256];		\
-		snprintf(buf, sizeof(buf), fmt, ##__VA_ARGS__);	\
-		tracing_mark_write(buf);			\
-	}				\
+	if (unlikely(hmbirdcore_debug & DEBUG_INFO_SYSTRACE))	\
+		hmbird_systrace_emit(fmt, ##__VA_ARGS__);	\
 } while (0)
 
 #define hmbird_output_systrace(fmt, ...)	\
 do {					\
-	char buf[256];		\
-	snprintf(buf, sizeof(buf), fmt, ##__VA_ARGS__);	\
-	tracing_mark_write(buf);			\
+	hmbird_systrace_emit(fmt, ##__VA_ARGS__);	\
 } while (0)
 
 #ifdef CONFIG_HMBIRD_DEBUG_MODE
